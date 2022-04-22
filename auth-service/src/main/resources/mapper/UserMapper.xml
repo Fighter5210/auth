@@ -14,5 +14,9 @@
         insert into t_user(id, user_id, user_name)
         values (#{id}, #{userId}, #{userName})
     </insert>
+    
+    <select id="select" parameterType="java.lang.Integer" resultType="com.wusong.platfrom.auth.entity.UserEntity"> 
+        select * from t_user where user_id=#{userId}
+    </select>
 
 </mapper>

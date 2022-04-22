@@ -15,4 +15,6 @@ public interface UserMapper extends BaseMapper<UserEntity> {
      */
     @Override
     int insert(UserEntity userEntity);
+
+    UserEntity select(Integer userId);
 }

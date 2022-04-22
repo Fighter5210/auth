@@ -56,7 +56,7 @@ spring:
             tableStrategy:
               standard:
                 shardingColumn: user_id
-                shardingAlgorithmName: table-inline
+                shardingAlgorithmName: table-user-inline
             key-generate-strategy:
               column: id
           t_user_detail:
@@ -68,7 +68,7 @@ spring:
             tableStrategy:
               standard:
                 shardingColumn: user_id
-                shardingAlgorithmName: table-inline1
+                shardingAlgorithmName: table-user-detail-inline
             key-generate-strategy:
               column: id
         # 配置分片算法
@@ -100,11 +100,11 @@ spring:
             type: INLINE
             props:
               algorithm-expression: user$->{user_id % 2}
-          table-inline:
+          table-user-inline:
             type: INLINE
             props:
               algorithm-expression: t_user$->{user_id % 2}
-          table-inline1:
+          table-user-detail-inline:
             type: INLINE
             props:
               algorithm-expression: t_user_detail$->{user_id % 2}

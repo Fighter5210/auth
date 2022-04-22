@@ -21,16 +21,17 @@ public class UserServiceImpl implements IUserService {
     UserDetailMapper userDetailMapper;
     
     @Override
-    public void saveUser(){
-        UserEntity userEntity = new UserEntity();
-        userEntity.setUserId(11).setUserName("用户2");
+    public void saveUser(UserEntity userEntity){
         userMapper.insert(userEntity);
     }
 
     @Override
-    public void saveUserDetail() {
-        UserDetailEntity userDetailEntity = new UserDetailEntity();
-        userDetailEntity.setUserId(11).setUserWork("工作1");
+    public void saveUserDetail(UserDetailEntity userDetailEntity) {
         userDetailMapper.insert(userDetailEntity);
+    }
+
+    @Override
+    public UserEntity getUser(Integer userId) {
+        return userMapper.select(userId);
     }
 }
