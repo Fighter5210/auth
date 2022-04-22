@@ -28,10 +28,9 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public void saveUserDetail() {
         UserDetailEntity userDetailEntity = new UserDetailEntity();
-        userDetailEntity.setUserId(10).setUserWork("工作1");
+        userDetailEntity.setUserId(11).setUserWork("工作1");
         userDetailMapper.insert(userDetailEntity);
     }
 }

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wusong.platfrom.auth.mapper.UserDetailMapper">
 
-    <resultMap type="com.wusong.platfrom.auth.entity.UserDetailEntity" id="userMap">
+    <resultMap type="com.wusong.platfrom.auth.entity.UserDetailEntity" id="userDetailMap">
         <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="userId" column="user_id" jdbcType="INTEGER"/>
         <result property="userWork" column="user_work" jdbcType="VARCHAR"/>

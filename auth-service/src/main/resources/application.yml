@@ -14,39 +14,7 @@ spring:
         loginUsername: root
         loginPassword: 123456
     dynamic: #动态数据源配置
-      druid:
-        filters: stat,wall,log4j2
-        # 初始连接数
-        initialSize: 5
-        # 最小连接池数量
-        minIdle: 10
-        # 最大连接池数量
-        maxActive: 20
-        # 配置获取连接等待超时的时间
-        maxWait: 60000
-        # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
-        timeBetweenEvictionRunsMillis: 60000
-        # 配置一个连接在池中最小生存的时间，单位是毫秒
-        minEvictableIdleTimeMillis: 300000
-        # 配置一个连接在池中最大生存的时间，单位是毫秒
-        maxEvictableIdleTimeMillis: 900000
-        # 配置检测连接是否有效
-        validationQuery: SELECT 1 FROM DUAL
-        testWhileIdle: true
-        testOnBorrow: false
-        testOnReturn: false
-        webStatFilter:
-          enabled: true
-        filter:
-          stat:
-            enabled: true
-            # 慢SQL记录
-            log-slow-sql: true
-            slow-sql-millis: 1000
-            merge-sql: true
-          wall:
-            config:
-              multi-statement-allow: true
+      strict: false
       datasource:
         master:
           username: root
@@ -63,76 +31,12 @@ spring:
         driver-class-name: com.mysql.cj.jdbc.Driver
         username: root
         password: 123456
-        filters: stat,wall,log4j2
-        # 初始连接数
-        initialSize: 5
-        # 最小连接池数量
-        minIdle: 10
-        # 最大连接池数量
-        maxActive: 20
-        # 配置获取连接等待超时的时间
-        maxWait: 60000
-        # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
-        timeBetweenEvictionRunsMillis: 60000
-        # 配置一个连接在池中最小生存的时间，单位是毫秒
-        minEvictableIdleTimeMillis: 300000
-        # 配置一个连接在池中最大生存的时间，单位是毫秒
-        maxEvictableIdleTimeMillis: 900000
-        # 配置检测连接是否有效
-        validationQuery: SELECT 1 FROM DUAL
-        testWhileIdle: true
-        testOnBorrow: false
-        testOnReturn: false
-        webStatFilter:
-          enabled: true
-        filter:
-          stat:
-            enabled: true
-            # 慢SQL记录
-            log-slow-sql: true
-            slow-sql-millis: 1000
-            merge-sql: true
-          wall:
-            config:
-              multi-statement-allow: true
       user1:
         type: com.zaxxer.hikari.HikariDataSource
         jdbc-url: jdbc:mysql://127.0.0.1:3306/user1?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
         driver-class-name: com.mysql.cj.jdbc.Driver
         username: root
         password: 123456
-        filters: stat,wall,log4j2
-        # 初始连接数
-        initialSize: 5
-        # 最小连接池数量
-        minIdle: 10
-        # 最大连接池数量
-        maxActive: 20
-        # 配置获取连接等待超时的时间
-        maxWait: 60000
-        # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
-        timeBetweenEvictionRunsMillis: 60000
-        # 配置一个连接在池中最小生存的时间，单位是毫秒
-        minEvictableIdleTimeMillis: 300000
-        # 配置一个连接在池中最大生存的时间，单位是毫秒
-        maxEvictableIdleTimeMillis: 900000
-        # 配置检测连接是否有效
-        validationQuery: SELECT 1 FROM DUAL
-        testWhileIdle: true
-        testOnBorrow: false
-        testOnReturn: false
-        webStatFilter:
-          enabled: true
-        filter:
-          stat:
-            enabled: true
-            # 慢SQL记录
-            log-slow-sql: true
-            slow-sql-millis: 1000
-            merge-sql: true
-          wall:
-            config:
-              multi-statement-allow: true
     rules:
       # 配置分片规则
       sharding:
@@ -148,25 +52,25 @@ spring:
             databaseStrategy:
               standard:
                 shardingColumn: user_id
-                shardingAlgorithmName: table-inline
+                shardingAlgorithmName: database-inline
             tableStrategy:
               standard:
                 shardingColumn: user_id
                 shardingAlgorithmName: table-inline
             key-generate-strategy:
-              column: user_id
+              column: id
           t_user_detail:
             actualDataNodes: user$->{0..1}.t_user_detail$->{0..1}
             databaseStrategy:
               standard:
                 shardingColumn: user_id
-                shardingAlgorithmName: table-inline
+                shardingAlgorithmName: database-inline
             tableStrategy:
               standard:
                 shardingColumn: user_id
-                shardingAlgorithmName: table-inline
+                shardingAlgorithmName: table-inline1
             key-generate-strategy:
-              column: user_id
+              column: id
         # 配置分片算法
 #        bindingTables: t_user,t_user_detail
 #        autoTables: # 自动分片表规则配置
@@ -184,14 +88,14 @@ spring:
 #                shardingAlgorithmName: auto-mod-1 # 自动分片算法名称
         
         sharding-algorithms:
-          auto-mod-4:
-            type: mod
-            props:
-              sharding-count: 1
-          auto-mod-1:
-            type: mod
-            props:
-              sharding-count: 1
+#          auto-mod-4:
+#            type: mod
+#            props:
+#              sharding-count: 1
+#          auto-mod-1:
+#            type: mod
+#            props:
+#              sharding-count: 1
           database-inline:
             type: INLINE
             props:
@@ -200,6 +104,10 @@ spring:
             type: INLINE
             props:
               algorithm-expression: t_user$->{user_id % 2}
+          table-inline1:
+            type: INLINE
+            props:
+              algorithm-expression: t_user_detail$->{user_id % 2}
     props:
       sql-show: true
 mybatis-plus:
